@@ -1,13 +1,12 @@
-function maxProduct(nums) {
-  if (nums.length === 0) return 0;
-  let maxSoFar = nums[0];
-  let minSoFar = nums[0];
-  let maxProduct = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    const temp = maxSoFar;
-    maxSoFar = Math.max(nums[i], nums[i] * maxSoFar, nums[i] * minSoFar);
-    minSoFar = Math.min(nums[i], nums[i] * temp, nums[i] * minSoFar);
-    maxProduct = Math.max(maxProduct, maxSoFar);
-  }
-  return maxProduct;
+function buildTree(inorder, postorder) {
+  if (!inorder.length || !postorder.length) return null;
+  const rootVal = postorder[postorder.length - 1];
+  const root = new TreeNode(rootVal);
+  const mid = inorder.indexOf(rootVal);
+  root.left = buildTree(inorder.slice(0, mid), postorder.slice(0, mid));
+  root.right = buildTree(
+    inorder.slice(mid + 1),
+    postorder.slice(mid, postorder.length - 1),
+  );
+  return root;
 }
